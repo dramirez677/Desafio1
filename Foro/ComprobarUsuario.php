@@ -61,12 +61,15 @@ and open the template in the editor.
             else{
                 
                 $passwordcifrada = base64_encode($password);
+                $u = new Usuario(0,2,$_REQUEST['nombre'], $_REQUEST['apellidos'], $_REQUEST['fechanacimiento'], $_REQUEST['email'], $_REQUEST['password']);
+                $_SESSION['u'] = $u;
                 
-                if ($conexion->insertar_usuario("registrado", 2, $_REQUEST['nombre'], $_REQUEST['apellidos'], $_REQUEST['fechanacimiento'], $_REQUEST['email'], $passwordcifrada)) {
+                if ($conexion->insertar_usuario("registrado", 2, $u->getNombre(), $u->getApellidos(), $u->getFecha_nac(), $u->getEmail(), $passwordcifrada)) {
                     
                     ?>
                         <script>alert("Registrado con exito");</script>
                     <?php
+                    flush();
                     header("Location: Bienvenido.php");
                 }
                 else{
@@ -74,6 +77,7 @@ and open the template in the editor.
                     ?>
                         <script>alert("Error en el registro");</script>
                     <?php
+                    flush();
                 }
             }
         }

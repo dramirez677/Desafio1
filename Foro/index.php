@@ -36,8 +36,10 @@ and open the template in the editor.
             unset($_SESSION["errorlogin"]);
         }
 
-
-
+        //el usuario nada mas empezar en anonimo
+        $uanonimo = new Usuario(0, 3, "Anonimo", "", "", "", "");
+        $_SESSION['u'] = $uanonimo;
+        
         $conexion = new Conexion("desafio1", "dani", "dani");
         $conexion->rellenar_cursor_categorias("categoria");
         ?>
@@ -59,7 +61,7 @@ and open the template in the editor.
                     <?php
                     while ($conexion->siguiente()) {
                         ?>
-                        <input type="submit" name="" value="<?php echo $conexion->obtener_campo("nombre") ?>" class="btn btn-primary botoncategorias"><br>
+                        <input type="submit" name="categoria[]" value="<?php echo $conexion->obtener_campo("nombre") ?>" class="btn btn-primary botoncategorias"><br>
                         <?php
                     }
                     ?>

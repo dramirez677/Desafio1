@@ -65,6 +65,17 @@ class Conexion {
         $query = "select * from " . $tabla . " where email='" . $email . "'";
         return $this->result = mysqli_query($this->conexion, $query);
     }
+    
+    public function rellenar_cursor_preguntas($tabla, $categoria) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select * from " . $tabla . " where id_categoria=".$categoria;
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
 
     public function insertar_usuario($tabla,$rol, $nombre, $apellidos, $fecha_nac, $email, $password) {
 
