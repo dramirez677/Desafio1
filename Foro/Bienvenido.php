@@ -8,69 +8,99 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <title></title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+        <link rel="stylesheet" href="estilos.css">
+
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script src="js/bootstrap.min.js"></script> 
+
     </head>
     <body>
         <?php
+        require 'Modelo/Conexion.php';
         require 'Modelo/Usuario.php';
         session_start();
         error_reporting(0);
-
-        //el usuario anonimo solo responde temas
+        
+        
+        //el usu anonimo solo responde temas
         //el administrador puede borrar categorias
-        //el usuario registrado puede crear temas y responder, pero no borrar categorias, borrar propio tema
+        //el usu registrado puede crear temas y responder, pero no borrar categorias, borrar propio tema
+        
+        $usu = new Usuario(0, 0, "", "", "", "", "");
+        $usu = $_SESSION['u'];
+        $conexion = new Conexion("desafio1", "dani", "dani");
 
-        $usuario = $_SESSION['u'];
+        
 
+        //si el usu es administrador o usu registrado
+        if ($usu->getId_rol() == 1 || $usu->getId_rol() == 2) {
 
-        //si el usuario es administrador o usuario rewgistrado
-        if ($usuario->getId_rol() === 1 || $usuario->getId_rol() === 2) {
-
-            $conexion = new Conexion("desafio1", "dani", "dani");
             $conexion->rellenar_cursor_categorias("categoria");
             ?>
 
             <div class="panel panel-primary">
                 <div class="panel-body">
-                    <h4>BIENVENIDOS AL FORO!!!</h4>
+                    <h4>BIENVENIDO <?php echo $usu->getNombre() ?>!!!</h4>
                 </div>
-                <div class="panel-footer">Tienes alguna duda? Logueate y abre un tema con tu pregunta</div>
+                <div class="panel-footer">¿Que deseas hacer hoy, consultar un tema, abrir uno nuevo, responder otro tema...?</div>
             </div>
 
-            <form action="ComprobarUsuario.php" method="POST">
+            <form action="Bienvenido.php" method="POST">
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-2 divcategorias">
                         <div class="page-header">
-                            <h4>¿Quieres investigar sobre un tema?<br><br> Aqui tienes las categorias</h4>
+                            <h4>Categorias actuales</h4>
                         </div>
                         <?php
                         while ($conexion->siguiente()) {
                             ?>
-                            <input type="submit" name="categoria[]" value="<?php echo $conexion->obtener_campo("nombre") ?>" class="btn btn-primary botoncategorias"><br>
+                            <input type="submit" name="categoria[]" id="categoria" value="<?php echo $conexion->obtener_campo("nombre") ?>" onclick="anadir()" class="btn btn-primary botoncategorias"><br>
                             <?php
                         }
                         ?>
                     </div>
 
+                    
                     <div class="col-md-3"></div>
-                    <div class="col-md-3 divlogin">
+                    <div class="col-md-3 divpreguntas" id="caja">
+                        <div class="page-header">
+                            <h4>Preguntas de la categoria</h4>
+                        </div>
                         
                         <?php
                         
-                        //saber el id de la categoria
-                        $conexion->rellenar_cursor_preguntas("pregunta", 1);
+                        $categoria = $_REQUEST['categoria'];
+                        if (isset($categoria)) {
+                            
+                            $conexion->rellenar_cursor_idcategoria("categoria", $categoria[0]);
+                            if($conexion->siguiente()){
+                                
+                                $id = $conexion->obtener_campo("id_categoria");
+                                $conexion->rellenar_cursor_preguntas("pregunta", $id);
+                                
+                                while($conexion->siguiente()){
+                                    
+                                    ?>
+                                        <input type="submit" name="" value="<?php echo $conexion->obtener_campo("titulo")?>" class="btn btn-primary">
+                                    <?php
+                                }
+                            }
+                        }
                         ?>
                     </div>
                 </div>
             </form>
-
             <?php
         }
-        //si el usuario es anonimo
-        else if ($usuario->getId_rol() === 3) {
+        //si el usu es anonimo
+        else if ($usu->getId_rol() === 3) {
 
-            
         }
+        $conexion->cerrar_sesion();
         ?>
     </body>
 </html>

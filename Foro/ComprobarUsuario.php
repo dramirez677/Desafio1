@@ -45,6 +45,7 @@ and open the template in the editor.
                     header("Location: index.php");
                 }
             }
+            $conexion->cerrar_sesion();
         } 
         else if (isset($registro)) {
             
@@ -80,6 +81,7 @@ and open the template in the editor.
                     flush();
                 }
             }
+            $conexion->cerrar_sesion();
         }
         ?>
     </body>

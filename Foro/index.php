@@ -19,6 +19,7 @@ and open the template in the editor.
     <body>
         <?php
         require 'Modelo/Conexion.php';
+        require 'Modelo/Usuario.php';
         session_start();
         error_reporting(0);
 
@@ -64,6 +65,7 @@ and open the template in the editor.
                         <input type="submit" name="categoria[]" value="<?php echo $conexion->obtener_campo("nombre") ?>" class="btn btn-primary botoncategorias"><br>
                         <?php
                     }
+                    $conexion->cerrar_sesion();
                     ?>
                 </div>
 

@@ -40,7 +40,7 @@ class Conexion {
             mysqli_free_result($this->result);
         }
 
-        $query = "select * from " . $tabla;
+        $query = "select * from " . $tabla . " order by id_categoria";
         return $this->result = mysqli_query($this->conexion, $query);
     }
     
@@ -74,6 +74,17 @@ class Conexion {
         }
 
         $query = "select * from " . $tabla . " where id_categoria=".$categoria;
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
+    
+    public function rellenar_cursor_idcategoria($tabla, $nombrecategoria) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select * from " . $tabla . " where nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
     }
 
