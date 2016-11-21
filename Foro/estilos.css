@@ -1,0 +1,85 @@
+body{
+
+    margin: 0px;
+    background-color: lightblue;
+}
+
+.divcategorias{
+
+    margin-left: 10px;
+    margin-top: 50px;
+}
+
+.divlogin{
+    
+    margin-left: 10px;
+    margin-top: 50px;
+}
+
+.divlogin input[type="submit"]{
+    
+    width: 45%;
+    margin-left: 5%;
+}
+
+.divlogin input[type="reset"]{
+    
+    width: 45%;
+}
+
+.divenlace{
+    
+    text-align: right;
+}
+
+.botoncategorias{
+
+    margin-bottom: 10px;
+}
+
+.panel-primary {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #428bca;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.panel-footer{
+    
+    color: black;
+}
+
+.page-header{
+    
+    text-align: center;
+}
+
+.divimgregistro{
+    
+    width: 15%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    
+}
+
+.divregistro{
+    
+    width: 25%;
+    margin: auto;
+}
+
+.alert-warning {
+
+    text-align: center;
+}
+
+.botonregistro{
+    
+    width: 50%;
+    margin-left: 30%;
+    margin-top: 20px;
+}
