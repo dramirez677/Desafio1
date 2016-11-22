@@ -40,7 +40,7 @@ and open the template in the editor.
         //el usuario nada mas empezar en anonimo
         $uanonimo = new Usuario(0, 3, "Anonimo", "", "", "", "");
         $_SESSION['u'] = $uanonimo;
-        
+
         $conexion = new Conexion("desafio1", "dani", "dani");
         $conexion->rellenar_cursor_categorias("categoria");
         ?>
@@ -51,6 +51,10 @@ and open the template in the editor.
             </div>
             <div class="panel-footer">Tienes alguna duda? Logueate y abre un tema con tu pregunta</div>
         </div>
+
+        <ol class="breadcrumb">
+            <li><a href="index.html" class="active">Inicio</a></li>
+        </ol>
 
         <form action="ComprobarUsuario.php" method="POST">
             <div class="row">
@@ -72,12 +76,12 @@ and open the template in the editor.
                 <div class="col-md-3"></div>
                 <div class="col-md-3 divlogin">
                     <div class="page-header">
-                        <h4>¿Ya tienes cuanta en nuestro foro?<br><br> Logueate</h4>
+                        <h4>¿Ya tienes cuenta en nuestro foro?<br><br> Logueate</h4>
                     </div>
                     <div class="form-group divenlace">
                         <input type="text" name="usuario" placeholder="Usuario" class="form-control">
                         <input type="password" name="password" placeholder="Contraseña" class="form-control">
-                        <a href="EnviarCorreo.php">Has olvidado la ontraseña</a>
+                        <a href="EnviarCorreo.php">Has olvidado la contraseña</a>
                     </div>
 
                     <input type="submit" name="aceptar" value="Aceptar" class="btn btn-primary">

@@ -7,7 +7,7 @@ body{
 .divcategorias{
 
     margin-left: 10px;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .divlogin{
@@ -30,7 +30,7 @@ body{
 .divpreguntas{
     
     margin-left: 10px;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .divpreguntas input[type="submit"]{
@@ -99,4 +99,38 @@ body{
     width: 50%;
     margin-left: 30%;
     margin-top: 20px;
+}
+
+ol, ul{
+    
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.divusuario{
+    
+    text-align: right;
+    margin-right: 10px;
+}
+
+.dropdown-menu {
+    
+    left: -122px;
+}
+
+.botonusuario{
+    
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+.botonusuario:hover{
+    
+    background-color: #428bca;
+}
+
+.btn{
+    
+    vertical-align: baseline;
 }
