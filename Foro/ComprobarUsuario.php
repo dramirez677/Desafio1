@@ -21,10 +21,22 @@ and open the template in the editor.
         $password = $_REQUEST['password'];
         $index = $_REQUEST['aceptar'];
         $registro = $_REQUEST['registrarme'];
+        $categoria = $_REQUEST['categoria'];
+        
+        
+        
+        //si el usuario es anonimo muestro solo las categorias en la pagina MostrarCategoriasAnonimo
+        if(isset($categoria)){
+            
+            $_SESSION['catego'] = $categoria[0];
+            header("Location: MostrarCategoriasAnonimo.php");
+        }
+        
+        
         
         $conexion = new Conexion("desafio1", "dani", "dani");
 
-
+        //si vengo de la pagina de inicio
         if (isset($index)) {
 
             $conexion->rellenar_cursor_login("registrado", $usuario);
@@ -47,6 +59,7 @@ and open the template in the editor.
             }
             $conexion->cerrar_sesion();
         } 
+        //si vengo de la pagina de registro
         else if (isset($registro)) {
             
             $email = $_REQUEST['email'];

@@ -134,3 +134,14 @@ ol, ul{
     
     vertical-align: baseline;
 }
+
+.mostrarcategoanonimo{
+    
+    width: 15%;
+    margin: auto;
+}
+
+.botoncategoriasanonimo{
+    
+    margin-top: 10px;
+}

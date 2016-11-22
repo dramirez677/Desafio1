@@ -87,6 +87,28 @@ class Conexion {
         $query = "select * from " . $tabla . " where nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
     }
+    
+    public function rellenar_cursor_idpregunta($tabla, $titulo) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select * from " . $tabla . " where titulo='".$titulo."'";
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
+    
+    public function rellenar_cursor_respuestas($tabla, $id_pregunta) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select * from " . $tabla . " where id_pregunta=".$id_pregunta;
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
 
     public function insertar_usuario($tabla,$rol, $nombre, $apellidos, $fecha_nac, $email, $password) {
 
