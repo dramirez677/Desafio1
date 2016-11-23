@@ -25,8 +25,7 @@ and open the template in the editor.
         require 'Modelo/Usuario.php';
         session_start();
         error_reporting(0);
-
-
+        
         //el usu anonimo solo responde temas
         //el administrador puede borrar categorias
         //el usu registrado puede crear temas y responder, pero no borrar categorias, borrar propio tema
