@@ -19,15 +19,14 @@ and open the template in the editor.
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
-        
+
         <?php
         require 'Modelo/Conexion.php';
         require 'Modelo/Usuario.php';
         session_start();
-        
+
         $usu = new Usuario(0, 0, "", "", "", "", "");
-        $usu = $_SESSION['u'];  
-        
+        $usu = $_SESSION['u'];
         ?>
 
         <div class="panel panel-primary">
@@ -41,56 +40,56 @@ and open the template in the editor.
             <li><a href="index.php">Inicio</a></li>
             <li><a href="Bienvenido.php" class="active">Bienvenido</a></li>
         </ol>
-        
-        <div class="divloginanonimo">
+
+        <div class="divloginanonimo" style="margin-right: 10px;">
 
             <form action="index.php" metohd="POST">
                 <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
             </form>
-            
+
             <form action="Registro.php" metohd="POST">
                 <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
             </form>
         </div>
-        
-        <?php
 
+        <?php
         $conexion = new Conexion("desafio1", "dani", "dani");
         $usu = new Usuario(0, 0, "", "", "", "", "");
         $usu = $_SESSION['u'];
-        $titulo = $_REQUEST['pregunta'];
 
-        if (isset($titulo)) {
+        $pregunta = $_REQUEST['pregunta'];
+        $idpregunta = $_REQUEST['id'];
 
-            $conexion->rellenar_cursor_idpregunta("pregunta", $titulo[0]);
-            if ($conexion->siguiente()) {
+        if (isset($idpregunta)) {
 
-                $idpregunta = $conexion->obtener_campo("id_pregunta");
-                $descripcion = $conexion->obtener_campo("descripcion");
-                $conexion->rellenar_cursor_respuestas("respuesta", $idpregunta);
+            $conexion->rellenar_cursor_respuestas("pregunta", "respuesta", $idpregunta);
+            
+            ?>
+        
+            <div class="page-header">
+                <h4><?php echo $conexion->obtener_campo("descripcion") ?></h4>
+            </div>
+        
+            <?php
+
+            while ($conexion->siguiente()) {
                 ?>
-                <div class="page-header">
-                    <h4><?php echo $descripcion ?></h4>
+                
+                <div class="form-group">
+                    <label for="comment"><?php echo $conexion->obtener_campo("autor") . " - " . $conexion->obtener_campo("fecha") ?></label>
+                    <textarea class="form-control" rows="5" style="resize: none;" readonly><?php echo $conexion->obtener_campo("respuesta") ?></textarea>
                 </div>
                 <?php
-                while ($conexion->siguiente()) {
-                    ?>
-                    <div class="form-group">
-                        <label for="comment"><?php echo $conexion->obtener_campo("autor")." - ".$conexion->obtener_campo("fecha") ?></label>
-                        <textarea class="form-control" rows="5" style="resize: none;" readonly><?php echo $conexion->obtener_campo("respuesta") ?></textarea>
-                    </div>
-                    <?php
-                }
-                
-                ?>
-        <hr>
+            }
+            ?>
+        
+            <hr>
             <div class="divrespuesta">
                 <textarea class="form-control" rows="5" style="resize: none;" placeholder="Escribe aqui tu respuesta..."></textarea><br>
                 <input type="submit" name="enviar" value="Enviar" class="btn btn-primary botonesrespuesta">
                 <input type="submit" name="borrar" value="Borrar" class="btn btn-primary botonesrespuesta">
             </div>
-                <?php
-            }
+            <?php
         }
 
         //si el usuario es administrador

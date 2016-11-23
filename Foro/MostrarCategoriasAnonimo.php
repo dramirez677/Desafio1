@@ -35,55 +35,67 @@ and open the template in the editor.
             <div class="panel-footer">Si ya tienes una cuenta no dudes en iniciar sesion<br> Si todavia no tienes cuenta puedes registrarte para acceder a todas las funcionalidades</div>
         </div>
 
+
+
         <ol class="breadcrumb">
             <li><a href="index.php">Inicio</a></li>
         </ol>
-        
-        <div class="divloginanonimo">
 
-            <form action="index.php" metohd="POST">
-                <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
-            </form>
-            
-            <form action="Registro.php" metohd="POST">
-                <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
-            </form>
+
+
+        <div class="row">
+
+            <div class="col-sm-11">
+                <form action="index.php" method="POST">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-sm-1 divloginanonimo">
+                <div class="divusuario">
+                    <form action="index.php" metohd="POST">
+                        <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
+                    </form>
+
+                    <form action="Registro.php" metohd="POST">
+                        <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
+                    </form>
+                </div>
+            </div>
         </div>
+
+
 
         <div class="page-header">
             <h4>Preguntas actuales</h4>
         </div>
 
         <div class="mostrarcategoanonimo">
-            <form action="MostrarRespuestas.php" method="POST">
                 <?php
                 $conexion = new Conexion("desafio1", "dani", "dani");
 
                 $categoria = $_SESSION['catego'];
                 if (isset($categoria)) {
 
-                    $conexion->rellenar_cursor_idcategoria("categoria", $categoria);
-                    if ($conexion->siguiente()) {
+                    $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
 
-                        $id = $conexion->obtener_campo("id_categoria");
-                        $conexion->rellenar_cursor_preguntas("pregunta", $id);
+                    while ($conexion->siguiente()) {
 
-                        while ($conexion->siguiente()) {
-                            
-                            $idpreguntacursor = $conexion->obtener_campo("id_pregunta");
-                            
-                            $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $idpreguntacursor);
-                            $conexion->siguiente2();
-                            ?>
-                            <input type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary botoncategoriasanonimo">
-                            <span class="badge"><?php echo $conexion->obtener_cuantos("total")?></span><br>
-                            <?php
-                        }
+                        $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $conexion->obtener_campo("id_pregunta"));
+                        $conexion->siguiente2();
                         ?>
-                    </form>
-                </div>
-                <?php
-            }
+                        <form action="MostrarRespuestas.php" method="POST">
+                            <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary botoncategoriasanonimo">
+                                <?php echo $conexion->obtener_campo("titulo") ?> <span class="badge"><?php echo $conexion->obtener_cuantos("total") ?></span> </button><br>
+                            <input type="text" name="id" value="<?php echo $conexion->obtener_campo("id_pregunta") ?>"><br>
+                        </form>
+                        <?php
+                    }
+                    ?>
+            </div>
+            <?php
         }
         $conexion->cerrar_sesion();
         ?>

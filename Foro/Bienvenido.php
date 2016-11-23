@@ -51,7 +51,7 @@ and open the template in the editor.
         </ol>
 
         <div class="row">
-            <div class="col-sm-10" style="margin-left: 10px;">
+            <div class="col-sm-11">
                 <form action="index.php" method="POST">
                     <button type="submit" class="btn btn-default">
                         <span class="glyphicon glyphicon-arrow-left"></span>
@@ -112,6 +112,7 @@ and open the template in the editor.
                     ?>
                 </div>
 
+
                 <div class="col-md-3"></div>
                 <div class="col-md-3 divpreguntas" id="caja">
                     <div class="page-header">
@@ -122,18 +123,13 @@ and open the template in the editor.
                     $categoria = $_REQUEST['categoria'];
                     if (isset($categoria)) {
 
-                        $conexion->rellenar_cursor_idcategoria("categoria", $categoria[0]);
-                        if ($conexion->siguiente()) {
+                        $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria[0]);
 
-                            $id = $conexion->obtener_campo("id_categoria");
-                            $conexion->rellenar_cursor_preguntas("pregunta", $id);
+                        while ($conexion->siguiente()) {
+                            ?>
 
-                            while ($conexion->siguiente()) {
-                                ?>
-                                
-                                <input type="submit" name="" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
-                                <?php
-                            }
+                            <input type="submit" name="" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
+                            <?php
                         }
                     }
                     ?>

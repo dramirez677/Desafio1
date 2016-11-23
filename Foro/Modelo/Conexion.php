@@ -68,19 +68,16 @@ class Conexion {
         return $this->result = mysqli_query($this->conexion, $query);
     }
     
-    public function rellenar_cursor_preguntas($tabla, $categoria) {
+    public function rellenar_cursor_preguntas($tabla, $tabla2, $nombrecategoria) {
 
         if (isset($this->result)) {
 
             mysqli_free_result($this->result);
         }
 
-        $query = "select * from " . $tabla . " where id_categoria=".$categoria;
+        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla2.".id_categoria=".$tabla.".id_categoria and ".$tabla.".nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
     }
-    
-    
-    
     
     
     public function rellenar_cursor_cuantaspreguntas($tabla, $idpregunta) {
@@ -95,41 +92,14 @@ class Conexion {
     }
     
     
-    
-    
-    
-    
-    
-    public function rellenar_cursor_idcategoria($tabla, $nombrecategoria) {
+    public function rellenar_cursor_respuestas($tabla, $tabla2, $id_pregunta) {
 
         if (isset($this->result)) {
 
             mysqli_free_result($this->result);
         }
 
-        $query = "select * from " . $tabla . " where nombre='".$nombrecategoria."'";
-        return $this->result = mysqli_query($this->conexion, $query);
-    }
-    
-    public function rellenar_cursor_idpregunta($tabla, $titulo) {
-
-        if (isset($this->result)) {
-
-            mysqli_free_result($this->result);
-        }
-
-        $query = "select * from " . $tabla . " where titulo='".$titulo."'";
-        return $this->result = mysqli_query($this->conexion, $query);
-    }
-    
-    public function rellenar_cursor_respuestas($tabla, $id_pregunta) {
-
-        if (isset($this->result)) {
-
-            mysqli_free_result($this->result);
-        }
-
-        $query = "select * from " . $tabla . " where id_pregunta=".$id_pregunta;
+        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_pregunta=".$tabla2.".id_pregunta and ".$tabla.".id_pregunta=".$id_pregunta;
         return $this->result = mysqli_query($this->conexion, $query);
     }
 
