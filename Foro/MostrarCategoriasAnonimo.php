@@ -38,9 +38,20 @@ and open the template in the editor.
         <ol class="breadcrumb">
             <li><a href="index.php">Inicio</a></li>
         </ol>
+        
+        <div class="divloginanonimo">
+
+            <form action="index.php" metohd="POST">
+                <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
+            </form>
+            
+            <form action="Registro.php" metohd="POST">
+                <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
+            </form>
+        </div>
 
         <div class="page-header">
-            <h4>Categorias actuales</h4>
+            <h4>Preguntas actuales</h4>
         </div>
 
         <div class="mostrarcategoanonimo">
@@ -58,8 +69,14 @@ and open the template in the editor.
                         $conexion->rellenar_cursor_preguntas("pregunta", $id);
 
                         while ($conexion->siguiente()) {
+                            
+                            $idpreguntacursor = $conexion->obtener_campo("id_pregunta");
+                            
+                            $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $idpreguntacursor);
+                            $conexion->siguiente2();
                             ?>
-                            <input type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary botoncategoriasanonimo"><br>
+                            <input type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary botoncategoriasanonimo">
+                            <span class="badge"><?php echo $conexion->obtener_cuantos("total")?></span><br>
                             <?php
                         }
                         ?>

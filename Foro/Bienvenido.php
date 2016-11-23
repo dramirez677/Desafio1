@@ -50,21 +50,32 @@ and open the template in the editor.
             <li><a href="Bienvenido.php" class="active">Bienvenido</a></li>
         </ol>
 
+        <div class="row">
+            <div class="col-sm-10" style="margin-left: 10px;">
+                <form action="index.php" method="POST">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                    </button>
+                </form>
+            </div>
 
-        <div class="divusuario">
-            <div class="btn-group">
+            <div class="col-sm-1">
+                <div class="divusuario">
+                    <div class="btn-group">
 
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <span class="caret"></span>
-                </button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="caret"></span>
+                        </button>
 
-                <ul class="dropdown-menu" role="menu">
-                    <li><input type="button" name="micuenta" value="Mi Cuenta" class="botonusuario"></li><br>
-                    <li><input type="button" name="email" value="<?php echo $usu->getEmail() ?>" class="botonusuario"></li>
-                    <li class="divider"></li>
-                    <li><input type="button" name="cerrarsesion" value="Cerrar Sesion" class="botonusuario"></li>
-                </ul>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><input type="button" name="micuenta" value="Mi Cuenta" class="botonusuario"></li><br>
+                            <li><input type="button" name="email" value="<?php echo $usu->getEmail() ?>" class="botonusuario"></li>
+                            <li class="divider"></li>
+                            <li><input type="button" name="cerrarsesion" value="Cerrar Sesion" class="botonusuario"></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -119,6 +130,7 @@ and open the template in the editor.
 
                             while ($conexion->siguiente()) {
                                 ?>
+                                
                                 <input type="submit" name="" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
                                 <?php
                             }
