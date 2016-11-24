@@ -134,15 +134,9 @@ ol, ul{
     vertical-align: baseline;
 }
 
-.mostrarcategoanonimo{
-    
-    width: 15%;
+.mostrarcategoanonimo {
+    width: 9%;
     margin: auto;
-}
-
-.botoncategoriasanonimo{
-    
-    margin-top: 10px;
 }
 
 .divvolver{
@@ -184,3 +178,9 @@ ol, ul{
     margin-left: 0px;
     margin-right: 0px;
 }
+
+.preguntas{
+    
+    text-align: center;
+}
+

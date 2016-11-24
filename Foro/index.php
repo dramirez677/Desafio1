@@ -37,7 +37,7 @@ and open the template in the editor.
             unset($_SESSION["errorlogin"]);
         }
 
-        //el usuario nada mas empezar en anonimo
+        //el usuario nada mas empezar es anonimo
         $uanonimo = new Usuario(0, 3, "Anonimo", "", "", "", "");
         $_SESSION['u'] = $uanonimo;
 

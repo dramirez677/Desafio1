@@ -28,14 +28,7 @@ and open the template in the editor.
         $usu = $_SESSION['u'];
         ?>
 
-        <div class="panel panel-primary">
-            <div class="panel-body">
-                <h4>BIENVENIDO <?php echo $usu->getNombre() ?></h4>
-            </div>
-            <div class="panel-footer">Si ya tienes una cuenta no dudes en iniciar sesion<br> Si todavia no tienes cuenta puedes registrarte para acceder a todas las funcionalidades</div>
-        </div>
-
-
+        <?php include 'Cabecera.php' ?>
 
         <ol class="breadcrumb">
             <li><a href="index.php">Inicio</a></li>
@@ -73,27 +66,27 @@ and open the template in the editor.
         </div>
 
         <div class="mostrarcategoanonimo">
-                <?php
-                $conexion = new Conexion("desafio1", "dani", "dani");
+            <?php
+            $conexion = new Conexion("desafio1", "dani", "dani");
 
-                $categoria = $_SESSION['catego'];
-                if (isset($categoria)) {
+            $categoria = $_SESSION['catego'];
+            if (isset($categoria)) {
 
-                    $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
+                $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
 
-                    while ($conexion->siguiente()) {
+                while ($conexion->siguiente()) {
 
-                        $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $conexion->obtener_campo("id_pregunta"));
-                        $conexion->siguiente2();
-                        ?>
-                        <form action="MostrarRespuestas.php" method="POST">
-                            <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary botoncategoriasanonimo">
-                                <?php echo $conexion->obtener_campo("titulo") ?> <span class="badge"><?php echo $conexion->obtener_cuantos("total") ?></span> </button><br>
-                            <input type="text" name="id" value="<?php echo $conexion->obtener_campo("id_pregunta") ?>"><br>
-                        </form>
-                        <?php
-                    }
+                    $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $conexion->obtener_campo("id_pregunta"));
+                    $conexion->siguiente2();
                     ?>
+                    <form action="MostrarRespuestas.php" method="POST" style="text-align: center;">
+                        <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
+                            <?php echo $conexion->obtener_campo("titulo") ?> <span class="badge"><?php echo $conexion->obtener_cuantos("total") ?></span> </button><br>
+                        <input type="text" name="id" value="<?php echo $conexion->obtener_campo("id_pregunta") ?>" hidden><br>
+                    </form>
+                    <?php
+                }
+                ?>
             </div>
             <?php
         }
