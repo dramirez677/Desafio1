@@ -77,7 +77,19 @@ class Conexion {
 
         $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla2.".id_categoria=".$tabla.".id_categoria and ".$tabla.".nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
-    }
+    }  
+    
+    public function preguntas($tabla) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select * from ".$tabla." where ".$tabla.".id_categoria=1";
+        $this->result = mysqli_query($this->conexion, $query);
+    }   
+    
     
     
     public function rellenar_cursor_cuantaspreguntas($tabla, $idpregunta) {
@@ -128,28 +140,30 @@ class Conexion {
 
         return mysqli_stmt_execute($stmt);
     }
+    
+    function cuantos_tiene_el_cursor(){
+        
+        return count($this->result);
+    }
 
 
-    function borrar_categoria_preguntas($tabla, $tabla2, $nombrecategoria){
+    function borrar_pregunta($tabla, $idpregunta){
         
-        if(isset($this->result)){
-            
-            mysqli_free_result($this->result);
-        }
-        
-        $query = "delete ".$tabla.",".$tabla2." from ".$tabla.",".$tabla2." where ".$tabla.".id_categoria=".$tabla2.".id_categoria and ".$tabla.".nombre='".$nombrecategoria."'";
+        $query = "delete from ".$tabla." where id_pregunta=".$idpregunta;
         return $this->result = mysqli_query($this->conexion, $query);
         
     }
     
     function borrar_respuestas($tabla, $idpregunta){
         
-        if(isset($this->result)){
-            
-            mysqli_free_result($this->result);
-        }
-        
         $query = "delete from ".$tabla." where id_pregunta=".$idpregunta;
+        return $this->result = mysqli_query($this->conexion, $query);
+        
+    }
+    
+    function borrar_categoria($tabla, $nombrecategoria){
+        
+        $query = "delete from ".$tabla." where nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
         
     }

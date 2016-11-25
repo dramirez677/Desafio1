@@ -40,22 +40,21 @@ and open the template in the editor.
         //esto se hace antes de pintar todo por si hemos borrado una categoria que no se muestre
         $nombrecategoria = $_REQUEST['nombre']; //campo oculto con el nombre de la categoria
         $borrarcategoria = $_REQUEST['borrarcategoria']; //si he pulsado el boton borrar de una categoria
+        
         //si he pulsado el boton borrarcategoria
         if (isset($borrarcategoria)) {
 
             //relleno el cursor con los datos de la categoria y las preguntas cuando el nombre de la categoria sea $categoria[0]
-            $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $nombrecategoria);
+            //$conexion->rellenar_cursor_preguntas("categoria", "pregunta", $nombrecategoria);
+            $conexion->preguntas("pregunta", 1);
+            $cuantos = $conexion->cuantos_tiene_el_cursor();
+            
             while ($conexion->siguiente()) {
 
-                //borro las respuestas de esa pregunta, pasandole el id_pregunta de la pregunta del cursor
                 $conexion->borrar_respuestas("respuesta", $conexion->obtener_campo("id_pregunta"));
+                $conexion->borrar_pregunta("pregunta", $conexion->obtener_campo("id_pregunta"));
             }
-
-            //borro la categoria y sus preguntas una vez que tengo borradas las respuestas de las preguntas
-            if(!$conexion->borrar_categoria_preguntas("categoria", "pregunta", $nombrecategoria)){
-                
-                
-            }
+            $conexion->borrar_categoria("categoria", $nombrecategoria);
         }
 
 
