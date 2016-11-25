@@ -12,6 +12,7 @@
  * @author Dani
  */
 class Usuario {
+    private $id_registrado;
     private $id_pregunta;
     private $id_rol;
     private $nombre;
@@ -28,6 +29,15 @@ class Usuario {
         $this->fecha_nac = $fecha_nac;
         $this->email = $email;
         $this->password = $password;
+    }
+
+    
+    function getId_registrado() {
+        return $this->id_registrado;
+    }
+
+    function setId_registrado($id_registrado) {
+        $this->id_registrado = $id_registrado;
     }
     
     function getId_pregunta() {

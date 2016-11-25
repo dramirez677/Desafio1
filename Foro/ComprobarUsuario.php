@@ -13,6 +13,7 @@ and open the template in the editor.
         <?php
         require 'Modelo/Conexion.php';
         require 'Modelo/Usuario.php';
+        require 'Modelo/Fichero.php';
         session_start();
         error_reporting(0);
         
@@ -47,7 +48,15 @@ and open the template in the editor.
 
                 if ($password === $passworddescodificada) {
 
+                    //si exite la variable cerrar sesion en la sesion la eliminamos para que el usuario nuevo que se loguea pueda acceder
+                    if(isset($_SESSION['sesioncerrada'])) unset ($_SESSION['sesioncerrada']);
+                    
+                    $fecha = getdate();
+                    $fechaactual = $fecha[year]."-".$fecha[mon]."-".$fecha[mday];
+                    Fichero::escribir_fichero($fechaactual."-"." Nueva conexion del usuario ".$usuario."\r\n");
+                    
                     $u = new Usuario($conexion->obtener_campo("id_pregunta"), $conexion->obtener_campo("id_rol"), $conexion->obtener_campo("nombre"), $conexion->obtener_campo("apellidos"), $conexion->obtener_campo("fecha_nac"), $conexion->obtener_campo("email"), $conexion->obtener_campo("password"));
+                    $u->setId_registrado($conexion->obtener_campo("id_registrado"));
                     $_SESSION['u'] = $u;
                     header("Location: Bienvenido.php");
                 }
@@ -75,10 +84,16 @@ and open the template in the editor.
             else{
                 
                 $passwordcifrada = base64_encode($password);
-                $u = new Usuario(0,2,$_REQUEST['nombre'], $_REQUEST['apellidos'], $_REQUEST['fechanacimiento'], $_REQUEST['email'], $_REQUEST['password']);
-                $_SESSION['u'] = $u;
+                $u = new Usuario(0,2,$_REQUEST['nombre'], $_REQUEST['apellidos'], $_REQUEST['fechanacimiento'], $_REQUEST['email'], $_REQUEST['password']);                
                 
                 if ($conexion->insertar_usuario("registrado", 2, $u->getNombre(), $u->getApellidos(), $u->getFecha_nac(), $u->getEmail(), $passwordcifrada)) {
+                    
+                    $conexion->rellenar_cursor_registro("registrado", $email);
+                    if($conexion->siguiente()){
+                        
+                        $u->setId_registrado($conexion->obtener_campo("email"));
+                        $_SESSION['u'] = $u;
+                    }
                     
                     ?>
                         <script>alert("Registrado con exito");</script>

@@ -114,6 +114,17 @@ class Conexion {
         $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_pregunta=".$tabla2.".id_pregunta and ".$tabla.".id_pregunta=".$id_pregunta;
         return $this->result = mysqli_query($this->conexion, $query);
     }
+    
+    public function rellenar_cursor_categoria($tabla, $nombrecategoria) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select id_categoria from ".$tabla." where nombre='".$nombrecategoria."'";
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
 
     public function insertar_usuario($tabla,$rol, $nombre, $apellidos, $fecha_nac, $email, $password) {
 
@@ -137,6 +148,50 @@ class Conexion {
         $val5 = $email;
         $val6 = $password;
         
+
+        return mysqli_stmt_execute($stmt);
+    }
+    
+    public function insertar_categoria($tabla, $nombrecategoria) {
+
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+
+        $query = "insert into " . $tabla . "(nombre) values (?)";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        
+
+        mysqli_stmt_bind_param($stmt, "s", $val1);
+
+        $val1 = $nombrecategoria;
+
+        return mysqli_stmt_execute($stmt);
+    }
+    
+    public function insertar_pregunta($tabla, $id_categoria, $id_usuario, $descripcion, $titulo, $fechaactual) {
+
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }   
+
+
+        $query = "insert into " . $tabla . "(id_categoria,id_usuario,descripcion,titulo,fecha) values (?,?,?,?,?)";
+        $stmt = mysqli_prepare($this->conexion, $query);
+        
+
+        mysqli_stmt_bind_param($stmt, "iisss", $val1,$val2,$val3,$val4,$val5);
+
+        $val1 = $id_categoria;
+        $val2 = $id_usuario;
+        $val3 = $descripcion;
+        $val4 = $titulo;
+        $val5 = $fechaactual;
 
         return mysqli_stmt_execute($stmt);
     }

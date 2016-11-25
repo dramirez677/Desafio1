@@ -20,12 +20,16 @@ and open the template in the editor.
         <?php
         require 'Modelo/Conexion.php';
         require 'Modelo/Usuario.php';
+        require 'Modelo/Fichero.php';
         session_start();
         error_reporting(0);
+
+        $fichero = new Fichero();
 
 
 
         $errorlogin = $_SESSION['errorlogin'];
+        $cerrarsesion = $_REQUEST['cerrarsesion'];
 
         if (isset($errorlogin)) {
             ?>
@@ -35,7 +39,22 @@ and open the template in the editor.
             </div>
             <?php
             unset($_SESSION["errorlogin"]);
+        } else if (isset($cerrarsesion)) {
+
+            //recojo el usuario de la sesion
+            $usu = new Usuario(0, 0, "", "", "", "", "");
+            $usu = $_SESSION['u'];
+
+            //cojo la fecha de hoy y escribo en el fichero que se cierra la sesion con el correo del usuario
+            $fecha = getdate();
+            $fechaactual = $fecha[year] . "-" . $fecha[mon] . "-" . $fecha[mday];
+            Fichero::escribir_fichero($fechaactual . "-" . " Cierra sesion el usuario " . $usu->getEmail() . "\r\n");
+
+            //variable de sesion para controlar si la sesion esta abierta o cerrada
+            $_SESSION['sesioncerrada'] = true;
         }
+
+
 
         //el usuario nada mas empezar es anonimo
         $uanonimo = new Usuario(0, 3, "Anonimo", "", "", "", "");
@@ -44,8 +63,8 @@ and open the template in the editor.
         $conexion = new Conexion("desafio1", "dani", "dani");
         $conexion->rellenar_cursor_categorias("categoria");
         ?>
-
         <div class="panel panel-primary">
+            <a href="index.php"><img src="Imagenes/logo.png" class="logo"></a>
             <div class="panel-body">
                 <h4>BIENVENIDOS AL FORO!!!</h4>
             </div>
@@ -53,7 +72,7 @@ and open the template in the editor.
         </div>
 
         <ol class="breadcrumb">
-            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="index.php">Inicio</a></li>
         </ol>
 
         <form action="ComprobarUsuario.php" method="POST">

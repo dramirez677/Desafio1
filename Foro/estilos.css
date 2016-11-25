@@ -112,7 +112,7 @@ ol, ul{
     text-align: right;
 }
 
-.dropdown-menu {
+.dropdown-menu{
     
     left: -122px;
 }
@@ -180,6 +180,17 @@ ol, ul{
 }
 
 .preguntas{
+    
+    text-align: center;
+}
+
+.logo{
+    
+    width: 7%;
+    padding-top: 20px;
+}
+
+.divenviaranadircategoria{
     
     text-align: center;
 }

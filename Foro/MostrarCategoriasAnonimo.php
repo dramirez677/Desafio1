@@ -73,18 +73,30 @@ and open the template in the editor.
             if (isset($categoria)) {
 
                 $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
+                
+                    if($conexion->siguiente()){
 
-                while ($conexion->siguiente()) {
+                    $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
 
-                    $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $conexion->obtener_campo("id_pregunta"));
-                    $conexion->siguiente2();
-                    ?>
-                    <form action="MostrarRespuestas.php" method="POST" style="text-align: center;">
-                        <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
-                            <?php echo $conexion->obtener_campo("titulo") ?> <span class="badge"><?php echo $conexion->obtener_cuantos("total") ?></span> </button><br>
-                        <input type="text" name="id" value="<?php echo $conexion->obtener_campo("id_pregunta") ?>" hidden><br>
-                    </form>
-                    <?php
+                    while ($conexion->siguiente()) {
+
+                        $conexion->rellenar_cursor_cuantaspreguntas("respuesta", $conexion->obtener_campo("id_pregunta"));
+                        $conexion->siguiente2();
+                        ?>
+                        <form action="MostrarRespuestas.php" method="POST" style="text-align: center;">
+                            <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
+                                <?php echo $conexion->obtener_campo("titulo") ?> <span class="badge"><?php echo $conexion->obtener_cuantos("total") ?></span> </button><br>
+                            <input type="text" name="id" value="<?php echo $conexion->obtener_campo("id_pregunta") ?>" hidden><br>
+                        </form>
+                        <?php
+                    }
+                }
+                else{    
+                ?>
+                    <div class="divnocategorias">
+                        <h4>No existen preguntas en esta categoria</h4>
+                    </div> 
+                <?php
                 }
                 ?>
             </div>

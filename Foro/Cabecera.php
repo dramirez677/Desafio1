@@ -8,10 +8,10 @@
 $usu = new Usuario(0, 0, "", "", "", "", "");
 $usu = $_SESSION['u'];
 ?>
-
-
 <div class="panel panel-primary">
+    
     <div class="panel-body">
+        <a href="index.php"><img src="Imagenes/logo.png" class="logo"></a>
         <h4>BIENVENIDO <?php echo $usu->getNombre() ?></h4>
     </div>
 
