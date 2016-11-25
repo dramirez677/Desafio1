@@ -75,7 +75,7 @@ class Conexion {
             mysqli_free_result($this->result);
         }
 
-        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla2.".id_categoria=".$tabla.".id_categoria and ".$tabla.".nombre='".$nombrecategoria."'";
+        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_categoria=".$tabla2.".id_categoria and ".$tabla.".nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
     }  
     

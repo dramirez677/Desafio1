@@ -34,7 +34,8 @@ and open the template in the editor.
 
         <ol class="breadcrumb">
             <li><a href="index.php">Inicio</a></li>
-            <li><a href="Bienvenido.php" class="active">Bienvenido</a></li>
+            <li><a href="Bienvenido.php">Bienvenido</a></li>
+            <li><a href="MostrarRespuestas.php">Respuestas</a></li>
         </ol>
 
         <div class="row">
@@ -49,34 +50,62 @@ and open the template in the editor.
                             <span class="glyphicon glyphicon-arrow-left"></span>
                         </button>
                     </form>
+                </div><div class="col-sm-1 divloginanonimo">
+                    <div class="divusuario">
+                        <form action="index.php" metohd="POST">
+                            <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
+                        </form>
+
+                        <form action="Registro.php" metohd="POST">
+                            <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
+                        </form>
+                    </div>
+                </div>
+            
+                <div class="col-sm-1 divloginanonimo">
+                        <div class="divusuario">
+                            <form action="index.php" metohd="POST">
+                                <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
+                            </form>
+
+                            <form action="Registro.php" metohd="POST">
+                                <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
+                            </form>
+                        </div>
                 </div>
                 <?php
             }
             else{
                 ?>
                 <div class="col-sm-11">
-                    <form action="Bienvenido.php" method="POST">
-                        <button type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-arrow-left"></span>
-                        </button>
-                    </form>
+                <form action="index.php" method="POST">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                    </button>
+                </form>
+                </div>
+
+                <div class="col-sm-1">
+                    <div class="divusuario">
+                        <div class="btn-group">
+
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="caret"></span>
+                            </button>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><input type="button" name="micuenta" value="Mi Cuenta" class="botonusuario"></li><br>
+                                <li><input type="button" name="email" value="<?php //echo $usu->getEmail()   ?>" class="botonusuario"></li>
+                                <li class="divider"></li>
+                                <li><input type="button" name="cerrarsesion" value="Cerrar Sesion" class="botonusuario"></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <?php
             }
-            
             ?>
-
-            <div class="col-sm-1 divloginanonimo">
-                <div class="divusuario">
-                    <form action="index.php" metohd="POST">
-                        <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
-                    </form>
-
-                    <form action="Registro.php" metohd="POST">
-                        <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
-                    </form>
-                </div>
-            </div>
         </div>
 
         <?php
@@ -102,9 +131,9 @@ and open the template in the editor.
                     <label for="comment"><?php echo $conexion->obtener_campo("autor") . " - " . $conexion->obtener_campo("fecha") ?></label>
                     <textarea class="form-control" rows="5" style="resize: none;" readonly><?php echo $conexion->obtener_campo("respuesta") ?></textarea>
                 </div>
-        <?php
-    }
-    ?>
+                <?php
+            }
+            ?>
 
             <hr>
             <div class="divrespuesta">
@@ -112,14 +141,14 @@ and open the template in the editor.
                 <input type="submit" name="enviar" value="Enviar" class="btn btn-primary botonesrespuesta">
                 <input type="submit" name="borrar" value="Borrar" class="btn btn-primary botonesrespuesta">
             </div>
-    <?php
-}
+            <?php
+        }
 
-//si el usuario es administrador
-if ($usu->getId_rol() == 1) {
-    
-}
-$conexion->cerrar_sesion();
-?>
+        //si el usuario es administrador
+        if ($usu->getId_rol() == 1) {
+
+        }
+        $conexion->cerrar_sesion();
+        ?>
     </body>
 </html>

@@ -17,6 +17,7 @@ and open the template in the editor.
 
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script> 
+        
 
     </head>
     <body>
@@ -35,7 +36,7 @@ and open the template in the editor.
         $usu = $_SESSION['u'];
         $conexion = new Conexion("desafio1", "dani", "dani");
 
-
+        
 
         //esto se hace antes de pintar todo por si hemos borrado una categoria que no se muestre
         $nombrecategoria = $_REQUEST['nombre']; //campo oculto con el nombre de la categoria
@@ -44,16 +45,25 @@ and open the template in the editor.
         //si he pulsado el boton borrarcategoria
         if (isset($borrarcategoria)) {
 
-            //relleno el cursor con los datos de la categoria y las preguntas cuando el nombre de la categoria sea $categoria[0]
-            //$conexion->rellenar_cursor_preguntas("categoria", "pregunta", $nombrecategoria);
-            $conexion->preguntas("pregunta", 1);
-            $cuantos = $conexion->cuantos_tiene_el_cursor();
+            $ids = array();
+            $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $nombrecategoria);
             
-            while ($conexion->siguiente()) {
-
-                $conexion->borrar_respuestas("respuesta", $conexion->obtener_campo("id_pregunta"));
-                $conexion->borrar_pregunta("pregunta", $conexion->obtener_campo("id_pregunta"));
+            while($conexion->siguiente()){
+                
+                $idpreguntacursor = $conexion->obtener_campo("id_pregunta");
+                array_push($ids, $conexion->obtener_campo("id_pregunta"));
             }
+            
+            for($i=0;$i<count($ids);$i++){
+                
+                $conexion->borrar_respuestas("respuesta", $ids[$i]);
+            }
+            
+            for($i=0;$i<count($ids);$i++){
+                
+                $conexion->borrar_pregunta("pregunta", $ids[$i]);
+            }
+            
             $conexion->borrar_categoria("categoria", $nombrecategoria);
         }
 
@@ -87,7 +97,7 @@ and open the template in the editor.
 
                         <ul class="dropdown-menu" role="menu">
                             <li><input type="button" name="micuenta" value="Mi Cuenta" class="botonusuario"></li><br>
-                            <li><input type="button" name="email" value="<?php //echo $usu->getEmail()   ?>" class="botonusuario"></li>
+                            <li><input type="button" name="email" value="<?php echo $usu->getEmail()   ?>" class="botonusuario"></li>
                             <li class="divider"></li>
                             <li><input type="button" name="cerrarsesion" value="Cerrar Sesion" class="botonusuario"></li>
                         </ul>
