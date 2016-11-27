@@ -184,7 +184,6 @@ and open the template in the editor.
                                         </form>
                                     </ul>
                                 </div>
-                            </form>
                         <?php
                     }
                     //si el usuario es usuario registrado
@@ -256,7 +255,22 @@ and open the template in the editor.
                         }
                         else{
                             ?>
-                                <h4>No existen preguntas en esta categoria</h4>
+                                <div class="btn-group">
+
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu" style="left: 0px;min-width: 700%;" role="menu">
+                                        <form action="Bienvenido.php" method="POST">
+                                            <li><input type="text" name="titulopregunta" placeholder="Titulo de la pregunta" class="form-control" style="margin: auto;width: 90%;padding: 6px 28px;" required></li><br>
+                                            <li><input type="text" name="descripcionpregunta" placeholder="Descripcion de la pregunta" class="form-control" style="margin: auto;width: 90%;padding: 6px 28px;" required></li><br>
+                                            <div class="divenviaranadircategoria">
+                                                <li><input type="submit" name="enviar2" value="Añadir" class="btn btn-primary" style="width: auto;margin-top: 0px;"></li>
+                                            </div>
+                                        </form>
+                                    </ul>
+                                </div>
                             <?php
                         }
                     }

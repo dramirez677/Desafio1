@@ -34,6 +34,11 @@ class Conexion {
         $this->conexion = mysqli_connect("localhost", $this->usuario, $this->password, $this->bd);
         //echo "Conectado correctamente"."<br><br>";
     }
+    
+    
+    //-------------------------------------------------------
+    //--------------FUNCIONES RELLENAR EL CURSOR-------------
+    //-------------------------------------------------------
 
     public function rellenar_cursor_categorias($tabla) {
 
@@ -43,6 +48,17 @@ class Conexion {
         }
 
         $query = "select * from " . $tabla . " order by id_categoria";
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
+    
+     public function rellenar_cursor_categoria($tabla, $nombrecategoria) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "select id_categoria from ".$tabla." where nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
     }
     
@@ -78,20 +94,7 @@ class Conexion {
         $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_categoria=".$tabla2.".id_categoria and ".$tabla.".nombre='".$nombrecategoria."'";
         return $this->result = mysqli_query($this->conexion, $query);
     }  
-    
-    public function preguntas($tabla) {
-
-        if (isset($this->result)) {
-
-            mysqli_free_result($this->result);
-        }
-
-        $query = "select * from ".$tabla." where ".$tabla.".id_categoria=1";
-        $this->result = mysqli_query($this->conexion, $query);
-    }   
-    
-    
-    
+        
     public function rellenar_cursor_cuantaspreguntas($tabla, $idpregunta) {
 
         if (isset($this->result2)) {
@@ -111,20 +114,13 @@ class Conexion {
             mysqli_free_result($this->result);
         }
 
-        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_pregunta=".$tabla2.".id_pregunta and ".$tabla.".id_pregunta=".$id_pregunta;
+        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_pregunta=".$tabla2.".id_pregunta and ".$tabla.".id_pregunta=".$id_pregunta." order by ".$tabla2.".fecha desc";
         return $this->result = mysqli_query($this->conexion, $query);
     }
     
-    public function rellenar_cursor_categoria($tabla, $nombrecategoria) {
-
-        if (isset($this->result)) {
-
-            mysqli_free_result($this->result);
-        }
-
-        $query = "select id_categoria from ".$tabla." where nombre='".$nombrecategoria."'";
-        return $this->result = mysqli_query($this->conexion, $query);
-    }
+    //-------------------------------------------------------
+    //--------------FUNCIONES INSERTAR-----------------------
+    //-------------------------------------------------------
 
     public function insertar_usuario($tabla,$rol, $nombre, $apellidos, $fecha_nac, $email, $password) {
 
@@ -196,10 +192,33 @@ class Conexion {
         return mysqli_stmt_execute($stmt);
     }
     
-    function cuantos_tiene_el_cursor(){
+    public function insertar_respuesta($tabla, $id_pregunta, $id_usuario, $respuesta, $fecha, $autor) {
+
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }   
+
+
+        $query = "insert into " . $tabla . "(id_pregunta,id_registrado,respuesta,fecha,autor) values (?,?,?,?,?)";
+        $stmt = mysqli_prepare($this->conexion, $query);
         
-        return count($this->result);
+
+        mysqli_stmt_bind_param($stmt, "iisss", $val1,$val2,$val3,$val4,$val5);
+
+        $val1 = $id_pregunta;
+        $val2 = $id_usuario;
+        $val3 = $respuesta;
+        $val4 = $fecha;
+        $val5 = $autor;
+
+        return mysqli_stmt_execute($stmt);
     }
+    
+    //-------------------------------------------------------
+    //--------------FUNCIONES BORRAR REGISTROS---------------
+    //-------------------------------------------------------
 
 
     function borrar_pregunta($tabla, $idpregunta){
@@ -222,19 +241,10 @@ class Conexion {
         return $this->result = mysqli_query($this->conexion, $query);
         
     }
-//    
-//    function actualizar_fila($tabla,$nombre,$apellidos,$edad,$email,$tlf,$email2){
-//        
-//        if(isset($this->result)){
-//            
-//            mysqli_free_result($this->result);
-//        }
-//        
-//        $query = "update ".$tabla." set nombre='".$nombre."',apellidos='".$apellidos."',edad=".$edad.",email='".$email."',tlf=".$tlf." where email='".$email2."'";
-//        return $this->result = mysqli_query($this->conexion, $query);
-//    }
-
-
+    
+    //-------------------------------------------------------
+    //----------FUNCIONES RECORRER EL CURSOR Y FETCH---------
+    //-------------------------------------------------------
 
     public function siguiente() {
 
@@ -245,6 +255,11 @@ class Conexion {
 
         return $this->fila2 = mysqli_fetch_array($this->result2);
     }
+    
+    
+    //-------------------------------------------------------
+    //---------FUNCIONES OBTENER CAMPOS DE LA FILA-----------
+    //-------------------------------------------------------
 
     public function obtener_campo($campo) {
 
@@ -255,6 +270,10 @@ class Conexion {
 
         return $this->fila2[$campo];
     }
+    
+    //-------------------------------------------------------
+    //--------------FUNCION PARA CERRAR LA SESION-----------
+    //-------------------------------------------------------
 
     function cerrar_sesion() {
 

@@ -24,6 +24,7 @@ and open the template in the editor.
         require 'Modelo/Conexion.php';
         require 'Modelo/Usuario.php';
         session_start();
+        error_reporting(0);
         
         //compruebo si la sesion esta cerrada o no
         if(!isset($_SESSION['sesioncerrada'])){
@@ -107,9 +108,28 @@ and open the template in the editor.
         
             <?php
             $conexion = new Conexion("desafio1", "dani", "dani");
+            
+            $enviarrespuesta = $_REQUEST['enviarrespuesta'];
+            
+            if(isset($enviarrespuesta)){
+                
+                $fecha = getdate();
+                $fechaactual = $fecha[year] . "-" . $fecha[mon] . "-" . $fecha[mday];
+                
+                $conexion->insertar_respuesta("respuesta", $_SESSION['idpregunta'], $usu->getId_registrado(), $_REQUEST['respuesta'], $fechaactual, $usu->getEmail());
+            }
+            
+            
 
             $pregunta = $_REQUEST['pregunta'];
             $idpregunta = $_REQUEST['id'];
+            
+            if(isset($idpregunta)){
+                $_SESSION['idpregunta'] = $idpregunta;
+            }
+            else{
+                $idpregunta = $_SESSION['idpregunta'];
+            }
 
             if (isset($idpregunta)) {
 
@@ -135,11 +155,13 @@ and open the template in the editor.
                 ?>
 
                 <hr>
-                <div class="divrespuesta">
-                    <textarea class="form-control" rows="5" style="resize: none;" placeholder="Escribe aqui tu respuesta..."></textarea><br>
-                    <input type="submit" name="enviar" value="Enviar" class="btn btn-primary botonesrespuesta">
-                    <input type="submit" name="borrar" value="Borrar" class="btn btn-primary botonesrespuesta">
-                </div>
+                <form action="MostrarRespuestas.php" method="POST">
+                    <div class="divrespuesta">
+                        <textarea class="form-control" name="respuesta" rows="5" style="resize: none;" placeholder="Escribe aqui tu respuesta..." required></textarea><br>
+                        <input type="submit" name="enviarrespuesta" value="Enviar" class="btn btn-primary botonesrespuesta">
+                        <input type="reset" name="borrar" value="Borrar" class="btn btn-primary botonesrespuesta">
+                    </div>
+                </form>
                 <?php
             }
             $conexion->cerrar_sesion();
