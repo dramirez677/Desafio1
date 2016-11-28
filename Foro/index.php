@@ -49,6 +49,12 @@ and open the template in the editor.
             $fecha = getdate();
             $fechaactual = $fecha[year] . "-" . $fecha[mon] . "-" . $fecha[mday];
             Fichero::escribir_fichero($fechaactual . "-" . " Cierra sesion el usuario " . $usu->getEmail() . "\r\n");
+            
+            unset($_SESSION['u']);
+            unset($_SESSION['catego']);
+            unset($_SESSION['idpregunta']);
+            unset($_SESSION['inicio']);
+            unset($_SESSION['usuario']);
 
             //variable de sesion para controlar si la sesion esta abierta o cerrada
             $_SESSION['sesioncerrada'] = true;

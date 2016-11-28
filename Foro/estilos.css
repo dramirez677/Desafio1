@@ -208,3 +208,14 @@ ol, ul{
     text-align: center;
 }
 
+.divmicuenta{
+    
+    margin: 10px;
+    margin-top: 50px;
+}
+
+.divmicuenta input{
+    
+    margin-top: 10px;
+}
+

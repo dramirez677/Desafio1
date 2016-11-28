@@ -256,6 +256,11 @@ class Conexion {
         return $this->fila2 = mysqli_fetch_array($this->result2);
     }
     
+    public function hay_datos(){
+        
+        return count($this->result) > 0;
+    }
+    
     
     //-------------------------------------------------------
     //---------FUNCIONES OBTENER CAMPOS DE LA FILA-----------

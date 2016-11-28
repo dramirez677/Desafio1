@@ -74,9 +74,7 @@ and open the template in the editor.
 
                 $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
                 
-                    if($conexion->siguiente()){
-
-                    $conexion->rellenar_cursor_preguntas("categoria", "pregunta", $categoria);
+                    if($conexion->hay_datos()){
 
                     while ($conexion->siguiente()) {
 
