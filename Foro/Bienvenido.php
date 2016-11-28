@@ -18,6 +18,26 @@ and open the template in the editor.
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script> 
         
+        <script>
+            
+            function evdragstart(ev) {
+                
+                ev.dataTransfer.setData("text",ev.target.id);	 
+            }
+            
+            function evdragover (ev) {
+                
+                ev.preventDefault();
+            }
+            
+            function evdrop(ev,el) {
+                ev.stopPropagation();
+                ev.preventDefault();
+                data=ev.dataTransfer.getData("text");
+                ev.target.appendChild(document.getElementById(data));
+            }
+        </script>
+        
 
     </head>
     <body>
@@ -96,6 +116,11 @@ and open the template in the editor.
                 
                 $conexion->insertar_pregunta("pregunta", $idcategoria, $idusuario, $descripcionpregunta, $titulopregunta, $fechaactual);
                 
+                ?>
+        
+                    <script>alert("Pregunta insertada con exito");</script>
+        
+                <?php
             }
 
 
@@ -144,7 +169,7 @@ and open the template in the editor.
 
 
         
-            <div class="row">
+            <div class="row divgeneral">
                 <div class="col-md-2"></div>
                 <div class="col-md-2 divcategorias">
                     <div class="page-header">
@@ -161,21 +186,23 @@ and open the template in the editor.
 
                         while ($conexion->siguiente()) {
                             ?>
+                            <div ondragover="evdragover(event)" ondrop="evdrop(event,this)">
                                 <form action="Bienvenido.php" method="POST">
                                     <button type="submit" name="borrarcategoria" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
                                     <input type="submit" name="categoria[]" value="<?php echo $conexion->obtener_campo("nombre") ?>" class="btn btn-primary botoncategorias"><br>
                                     <input type="text" name="nombre" value="<?php echo $conexion->obtener_campo("nombre") ?>" hidden>
                                 </form>
+                            </div>
                             <?php
                         }
                         ?>      
                                 <div class="btn-group">
 
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" ondragstart="evdragstart(event)">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
 
-                                    <ul class="dropdown-menu" style="left: 0px;min-width: 700%;" role="menu">
+                                    <ul class="dropdown-menu" style="left: 0px;min-width: 700%;margin-bottom: 100px;" role="menu">
                                         <form action="Bienvenido.php" method="POST">
                                             <li><input type="text" name="nuevacategoria" placeholder="Nombre de la categoria" class="form-control" style="margin: auto;width: 80%;padding: 6px 28px;" required></li><br>
                                             <div class="divenviaranadircategoria">
@@ -224,7 +251,7 @@ and open the template in the editor.
                                 ?>
 
                                 <form action="MostrarRespuestas.php" method="POST">
-                                    <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary">
+                                    <button type="submit" name="pregunta[]" value="<?php echo $conexion->obtener_campo("titulo") ?>" class="btn btn-primary" draggable="true">
                                         <?php echo $conexion->obtener_campo("titulo") ?> <span class="badge"><?php echo $conexion->obtener_cuantos("total") ?></span> </button><br>
                                     <input type="text" name="id" value="<?php echo $conexion->obtener_campo("id_pregunta") ?>" hidden><br>
                                 </form>
@@ -240,10 +267,10 @@ and open the template in the editor.
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
 
-                                    <ul class="dropdown-menu" style="left: 0px;min-width: 700%;" role="menu">
+                                    <ul class="dropdown-menu" style="left: 0px;min-width: 700%;margin-bottom: 100px;" role="menu">
                                         <form action="Bienvenido.php" method="POST">
-                                            <li><input type="text" name="titulopregunta" placeholder="Titulo de la pregunta" class="form-control" style="margin: auto;width: 90%;padding: 6px 28px;" required></li><br>
-                                            <li><input type="text" name="descripcionpregunta" placeholder="Descripcion de la pregunta" class="form-control" style="margin: auto;width: 90%;padding: 6px 28px;" required></li><br>
+                                            <li><input type="text" name="titulopregunta" placeholder="Titulo de la pregunta" class="form-control inputanadirpregunta" required></li><br>
+                                            <li><textarea name="descripcionpregunta" placeholder="Descripcion de la pregunta" class="form-control inputanadirpregunta" required></textarea></li><br>
                                             <div class="divenviaranadircategoria">
                                                 <li><input type="submit" name="enviar2" value="Añadir" class="btn btn-primary" style="width: auto;margin-top: 0px;"></li>
                                             </div>

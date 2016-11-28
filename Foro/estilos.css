@@ -195,3 +195,16 @@ ol, ul{
     text-align: center;
 }
 
+.divgeneral{
+    
+    margin-bottom: 100px;
+}
+
+.inputanadirpregunta{
+    
+    margin: auto;
+    width: 90%;
+    padding: 6px 28px;
+    text-align: center;
+}
+

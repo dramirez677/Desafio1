@@ -109,7 +109,7 @@ and open the template in the editor.
             </div>
         </form>
 
-        <div class="row">
+        <div class="row divgeneral">
             <div class="col-md-7"></div>
             <div class="col-md-3">
                 <form action="Registro.php" method="POST">
