@@ -23,6 +23,7 @@ and open the template in the editor.
         require 'Modelo/Conexion.php';
         require 'Modelo/Usuario.php';
         session_start();
+        error_reporting(0);
 
         $usu = new Usuario(0, 0, "", "", "", "", "");
         $usu = $_SESSION['u'];
@@ -39,23 +40,11 @@ and open the template in the editor.
         <div class="row">
 
             <div class="col-sm-11">
-                <form action="index.php" method="POST">
+                <form action="ComprobarUsuario.php" method="POST">
                     <button type="submit" class="btn btn-default">
                         <span class="glyphicon glyphicon-arrow-left"></span>
                     </button>
                 </form>
-            </div>
-
-            <div class="col-sm-1 divloginanonimo">
-                <div class="divusuario">
-                    <form action="index.php" metohd="POST">
-                        <input type="submit" name="loguear" value="Login" class="btn btn-primary btn-xs">
-                    </form>
-
-                    <form action="Registro.php" metohd="POST">
-                        <input type="submit" name="regitro" value="Registrarse" class="btn btn-primary btn-xs botonloginanonimo">
-                    </form>
-                </div>
             </div>
         </div>
 

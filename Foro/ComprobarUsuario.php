@@ -23,6 +23,7 @@ and open the template in the editor.
         $index = $_REQUEST['aceptar'];
         $registro = $_REQUEST['registrarme'];
         $categoria = $_REQUEST['categoria'];
+        $aceptarloginanonimo = $_REQUEST['aceptarloginanonimo'];
         
         
         
@@ -38,7 +39,7 @@ and open the template in the editor.
         $conexion = new Conexion("desafio1", "dani", "dani");
 
         //si vengo de la pagina de inicio
-        if (isset($index)) {
+        if (isset($index) || isset($aceptarloginanonimo)) {
 
             $conexion->rellenar_cursor_login("registrado", $usuario);
 
@@ -73,7 +74,6 @@ and open the template in the editor.
             
             $email = $_REQUEST['email'];
 
-
             $conexion->rellenar_cursor_registro("registrado", $email);
 
             if ($conexion->siguiente()) {
@@ -94,14 +94,12 @@ and open the template in the editor.
                         $u->setId_registrado($conexion->obtener_campo("id_registrado"));
                         $_SESSION['u'] = $u;
                     }
-                    
                     ?>
                         <script>alert("Registrado con exito");</script>
                     <?php
                     header("Location: Bienvenido.php");
                 }
                 else{
-                    
                     ?>
                         <script>alert("Error en el registro");</script>
                     <?php

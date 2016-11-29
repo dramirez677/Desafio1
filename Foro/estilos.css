@@ -146,7 +146,8 @@ ol, ul{
 
 .divloginanonimo{
     
-        text-align: right;
+        width: 15%;
+        margin-left: auto;
 }
 
 .botonloginanonimo{
@@ -229,4 +230,11 @@ ol, ul{
     
     margin-bottom: 5px;
 }
+
+.botonaceptarloginanonimo{
+    
+    margin-top: 10px;
+}
+
+
 

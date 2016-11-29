@@ -114,7 +114,7 @@ class Conexion {
             mysqli_free_result($this->result);
         }
 
-        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_pregunta=".$tabla2.".id_pregunta and ".$tabla.".id_pregunta=".$id_pregunta." order by ".$tabla2.".fecha desc";
+        $query = "select * from " . $tabla . ",".$tabla2." where ".$tabla.".id_pregunta=".$tabla2.".id_pregunta and ".$tabla.".id_pregunta=".$id_pregunta;
         return $this->result = mysqli_query($this->conexion, $query);
     }
     
@@ -254,6 +254,13 @@ class Conexion {
     function borrar_categoria($tabla, $nombrecategoria){
         
         $query = "delete from ".$tabla." where nombre='".$nombrecategoria."'";
+        return $this->result = mysqli_query($this->conexion, $query);
+        
+    }
+    
+    function borrar_respuesta($tabla, $idrespuesta){
+        
+        $query = "delete from ".$tabla." where id_respuesta=".$idrespuesta;
         return $this->result = mysqli_query($this->conexion, $query);
         
     }

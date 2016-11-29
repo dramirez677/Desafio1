@@ -110,6 +110,7 @@ and open the template in the editor.
             $conexion = new Conexion("desafio1", "dani", "dani");
             
             $enviarrespuesta = $_REQUEST['enviarrespuesta'];
+            $borrarrespuesta = $_REQUEST['borrarrespuesta'];
             
             if(isset($enviarrespuesta)){
                 
@@ -117,6 +118,14 @@ and open the template in the editor.
                 $fechaactual = $fecha[year] . "-" . $fecha[mon] . "-" . $fecha[mday];
                 
                 $conexion->insertar_respuesta("respuesta", $_SESSION['idpregunta'], $usu->getId_registrado(), $_REQUEST['respuesta'], $fechaactual, $usu->getEmail());
+            }
+            else if(isset ($borrarrespuesta)){
+                
+                $conexion->borrar_respuesta("respuesta", $_REQUEST['idrespuesta']);
+                
+                ?>
+                    <script>alert("Respuesta borrada correctamente");</script>
+                <?php
             }
             
             
@@ -149,6 +158,19 @@ and open the template in the editor.
                     <div class="form-group">
                         <label for="comment"><?php echo $conexion->obtener_campo("autor") . " - " . $conexion->obtener_campo("fecha") ?></label>
                         <textarea class="form-control" rows="5" style="resize: none;" readonly><?php echo $conexion->obtener_campo("respuesta") ?></textarea>
+                        <?php
+                        
+                        if($usu->getId_rol() == 1){
+                            
+                            ?>
+                            <form action="MostrarRespuestas.php" method="POST">
+                                <button type="submit" name="borrarrespuesta" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></button>
+                                <input type="text" name="idrespuesta" value="<?php echo $conexion->obtener_campo("id_respuesta")?>" hidden>
+                            </form>
+                            <?php
+                        }
+                        
+                        ?>
                     </div>
                     <?php
                 }
