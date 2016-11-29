@@ -217,6 +217,22 @@ class Conexion {
     }
     
     //-------------------------------------------------------
+    //--------------FUNCIONES ACTUALIZAR DATOS---------------
+    //-------------------------------------------------------
+    
+    
+    public function actualizar_datos_perfil($tabla, $nombre, $apellidos, $fecha, $email, $password, $id_registrado) {
+
+        if (isset($this->result)) {
+
+            mysqli_free_result($this->result);
+        }
+
+        $query = "update ".$tabla." set nombre='".$nombre."', apellidos='".$apellidos."', fecha_nac='".$fecha."', email='".$email."', password='".$password."' where id_registrado=".$id_registrado;
+        return $this->result = mysqli_query($this->conexion, $query);
+    }
+    
+    //-------------------------------------------------------
     //--------------FUNCIONES BORRAR REGISTROS---------------
     //-------------------------------------------------------
 

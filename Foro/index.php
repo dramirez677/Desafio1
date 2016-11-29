@@ -24,13 +24,15 @@ and open the template in the editor.
         session_start();
         error_reporting(0);
 
+        //creo un objeto fichero para poder utilizarlo  mas tarde de forma estatica
         $fichero = new Fichero();
 
 
 
-        $errorlogin = $_SESSION['errorlogin'];
-        $cerrarsesion = $_REQUEST['cerrarsesion'];
+        $errorlogin = $_SESSION['errorlogin'];//si ha dado un error el login esta variable tendra datos
+        $cerrarsesion = $_REQUEST['cerrarsesion'];//si vengo de cerrar sesion esta variable tendra datos
 
+        //si el login ha dado error
         if (isset($errorlogin)) {
             ?>
             <div class="alert alert-warning alert-dismissable">
@@ -39,7 +41,9 @@ and open the template in the editor.
             </div>
             <?php
             unset($_SESSION["errorlogin"]);
-        } else if (isset($cerrarsesion)) {
+        }
+        //si he pulsado el boton de cerrar sesion
+        else if (isset($cerrarsesion)) {
 
             //recojo el usuario de la sesion
             $usu = new Usuario(0, 0, "", "", "", "", "");
@@ -50,6 +54,7 @@ and open the template in the editor.
             $fechaactual = $fecha[year] . "-" . $fecha[mon] . "-" . $fecha[mday];
             Fichero::escribir_fichero($fechaactual . "-" . " Cierra sesion el usuario " . $usu->getEmail() . "\r\n");
             
+            //elimino todas las variables de sesion
             unset($_SESSION['u']);
             unset($_SESSION['catego']);
             unset($_SESSION['idpregunta']);
@@ -65,9 +70,22 @@ and open the template in the editor.
         //el usuario nada mas empezar es anonimo
         $uanonimo = new Usuario(0, 3, "Anonimo", "", "", "", "");
         $_SESSION['u'] = $uanonimo;
+        
+        
 
         $conexion = new Conexion("desafio1", "dani", "dani");
+        
+        //relleno el cursor con las categorias para mostrarlas en la pagina de inicio
+        //ya que un usuario anonimo puede acceder a los temas
         $conexion->rellenar_cursor_categorias("categoria");
+        
+        
+        
+        
+//        ---------------------------------------------------
+//        -----------PINTO LA PARTE DE LAS CATEGORIAS--------
+//        ---------------------------------------------------
+        
         ?>
         <div class="panel panel-primary">
             <a href="index.php"><img src="Imagenes/logo.png" class="logo"></a>
@@ -97,6 +115,12 @@ and open the template in the editor.
                     $conexion->cerrar_sesion();
                     ?>
                 </div>
+                
+                
+                
+<!--            ---------------------------------------------------
+            -----------PINTO LA PARTE DE LAS CATEGORIAS--------
+            ----------------------------------------------------->
 
                 <div class="col-md-3"></div>
                 <div class="col-md-3 divlogin">
@@ -106,6 +130,7 @@ and open the template in the editor.
                     <div class="form-group divenlace">
                         <input type="text" name="usuario" placeholder="Usuario" class="form-control">
                         <input type="password" name="password" placeholder="Contraseña" class="form-control">
+                        
                         <a href="EnviarCorreo.php">Has olvidado la contraseña</a>
                     </div>
 

@@ -29,6 +29,27 @@ and open the template in the editor.
         $usu = $_SESSION['u'];
         
         
+        $actualizardatos = $_REQUEST['actualizar'];
+        
+        if(isset($actualizardatos)){
+            
+            $conexion = new Conexion("desafio1", "dani", "dani");
+            
+            //actualizo el usuario
+            $conexion->actualizar_datos_perfil("registrado", $_REQUEST['nombre'], $_REQUEST['apellidos'], $_REQUEST['fecha_nac'], $_REQUEST['email'], base64_encode($_REQUEST['password']), $usu->getId_registrado());
+            
+            //actualizo las variables del usuario
+            $usu->setNombre($_REQUEST['nombre']);
+            $usu->setApellidos($_REQUEST['apellidos']);
+            $usu->setFecha_nac($_REQUEST['fecha_nac']);
+            $usu->setEmail($_REQUEST['email']);
+            $usu->setPassword($_REQUEST['password']);
+            
+            //guardo el usuario en sesion con las variables actualziadas
+            $_SESSION['u'] = $usu;
+        }
+        
+        
         include 'Cabecera.php';
         
         
@@ -37,12 +58,12 @@ and open the template in the editor.
         <!--Migas de pan-->
         <ol class="breadcrumb">
             <li><a href="index.php">Inicio</a></li>
-            <li><a href="Bienvenido.php" class="active">Bienvenido</a></li>
+            <li><a href="MiCuenta.php" class="active">Mi Cuenta</a></li>
         </ol>
 
         <!--Boton volver-->
         <div class="divvolver">
-            <form action="index.php" method="POST">
+            <form action="Bienvenido.php" method="POST">
                 <button type="submit" class="btn btn-default">
                     <span class="glyphicon glyphicon-arrow-left"></span>
                 </button>
@@ -50,26 +71,33 @@ and open the template in the editor.
         </div>
         
         
-        
-        <div class="divmicuenta">
-
-            <input type="text" name="nombre" class="form-control" value="<?php echo $usu->getNombre() ?>">
-            <input type="text" name="apellidos" class="form-control" value="<?php echo $usu->getApellidos() ?>">
-            <input type="date" name="fecha_nac" class="form-control" value="<?php echo $usu->getFecha_nac() ?>">
-            <input type="text" name="email" class="form-control" value="<?php echo $usu->getEmail() ?>">
-            <input type="password" name="password" class="form-control" value="<?php echo base64_decode($usu->getPassword()) ?>">
-
-            <?php
-            if ($usu->getId_rol() == 0) {
-                ?>
-                <input type="text" name="nombre" class="form-control" value="Administrador" readonly>
-                <?php
-            } else {
-                ?>
-                <input type="text" name="nombre" class="form-control" value="Usuario registrado" readonly>
-                <?php
-            }
-            ?>
+        <div class="page-header">
+            <h4>Perfil</h4>
         </div>
+        
+        
+        <form action="MiCuenta.php" method="POST">
+        
+            <div class="divmicuenta">
+                <input type="text" name="nombre" class="form-control" value="<?php echo $usu->getNombre() ?>">
+                <input type="text" name="apellidos" class="form-control" value="<?php echo $usu->getApellidos() ?>">
+                <input type="date" name="fecha_nac" class="form-control" value="<?php echo $usu->getFecha_nac() ?>">
+                <input type="text" name="email" class="form-control" value="<?php echo $usu->getEmail() ?>">
+                <input type="password" name="password" class="form-control" value="<?php echo base64_decode($usu->getPassword()) ?>">
+
+                <?php
+                if ($usu->getId_rol() == 0) {
+                    ?>
+                    <input type="text" name="rol" class="form-control" value="Administrador" readonly>
+                    <?php
+                } else {
+                    ?>
+                    <input type="text" name="rol" class="form-control" value="Usuario registrado" readonly>
+                    <?php
+                }
+                ?>
+                    <input type="submit" name="actualizar" value="Actualizar" class="btn btn-primary">
+            </div>
+        </form>
     </body>
 </html>

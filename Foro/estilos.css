@@ -219,3 +219,14 @@ ol, ul{
     margin-top: 10px;
 }
 
+.divespacio{
+    
+    margin: 10px;
+    padding-bottom: 10px;
+}
+
+.divespacio input{
+    
+    margin-bottom: 5px;
+}
+
