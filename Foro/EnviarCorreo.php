@@ -80,9 +80,7 @@ and open the template in the editor.
             $asunto = "Reinicio de contraseña";
             $cuerpo = "Tu nueva contraseña es:" . rand(1, 1000);
 
-            //$destinatario = $_REQUEST['usuario'];
-
-            mail("dramirez677@gmail.com", $asunto, $cuerpo, $headers);
+            mail($_REQUEST['correo'], $asunto, $cuerpo, $headers);
             ?>
 
             <script>setTimeout(function () {

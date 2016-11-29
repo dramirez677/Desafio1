@@ -91,14 +91,13 @@ and open the template in the editor.
                     $conexion->rellenar_cursor_registro("registrado", $email);
                     if($conexion->siguiente()){
                         
-                        $u->setId_registrado($conexion->obtener_campo("email"));
+                        $u->setId_registrado($conexion->obtener_campo("id_registrado"));
                         $_SESSION['u'] = $u;
                     }
                     
                     ?>
                         <script>alert("Registrado con exito");</script>
                     <?php
-                    flush();
                     header("Location: Bienvenido.php");
                 }
                 else{
@@ -106,7 +105,6 @@ and open the template in the editor.
                     ?>
                         <script>alert("Error en el registro");</script>
                     <?php
-                    flush();
                 }
             }
             $conexion->cerrar_sesion();

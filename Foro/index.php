@@ -68,7 +68,8 @@ and open the template in the editor.
 
 
         //el usuario nada mas empezar es anonimo
-        $uanonimo = new Usuario(0, 3, "Anonimo", "", "", "", "");
+        $uanonimo = new Usuario(0, 3, "Anonimo", "Apellidos", "0", "anonimo@hotmail.com", "anonimo");
+        $uanonimo->setId_registrado(0);
         $_SESSION['u'] = $uanonimo;
         
         
